@@ -1,15 +1,27 @@
 package com.example.weather;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity(tableName = "place")
 public class Place {
 
-    private Integer id;
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
+
+    @ColumnInfo(name = "name")
     private String name;
-    private Weather weather;
+    @ColumnInfo(name = "weather")
+    private String weather;
+    @ColumnInfo(name = "temperature")
     private Integer temperature;
+    @ColumnInfo(name = "description")
     private String description;
+    @ColumnInfo(name = "imageUrl")
     private String imageUrl;
 
-    public Place(String name, Integer temperature, Weather weather, String imageUrl, String description) {
+    public Place(String name, Integer temperature, String weather, String imageUrl, String description) {
         this.name = name;
         this.temperature = temperature;
         this.weather = weather;
@@ -17,11 +29,11 @@ public class Place {
         this.description = description;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -33,11 +45,11 @@ public class Place {
         this.name = name;
     }
 
-    public Weather getWeather() {
+    public String getWeather() {
         return weather;
     }
 
-    public void setWeather(Weather weather) {
+    public void setWeather(String weather) {
         this.weather = weather;
     }
 

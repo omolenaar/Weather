@@ -1,6 +1,8 @@
 package com.example.weather;
 
+import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +24,9 @@ import android.view.ViewGroup;
 
 import android.widget.Adapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +36,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -46,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
     PlacesAdapter mAdapter;
     RecyclerView mRecyclerView;
     ArrayList<Weather> theWeather;
-    ArrayList<Place> places;
+    List<Place> places;
+    private MainViewModel mMainViewModel;
+
+    static AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +70,32 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         ImageLoader.getInstance().init(config);
 
+        db = AppDatabase.getInstance(this);
+
+        places = new ArrayList<>();
+
         mRecyclerView = findViewById(R.id.places_list);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final PlacesAdapter mAdapter = new PlacesAdapter(places);
-        mRecyclerView.setAdapter(mAdapter);
+        mMainViewModel = new MainViewModel(getApplicationContext());
+        mMainViewModel.getPlaces().observe(this, new Observer<List<Place>>() {
 
-        places = new ArrayList<>();
-        initializeData();
-        updateUI();
+            @Override
+            public void onChanged(@Nullable List<Place> mPlaces) {
+                places = mPlaces;
+                updateUI();
+            }
+        });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ImageButton search = findViewById(R.id.searchButton);
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText placeInput = findViewById(R.id.inputPlace);
-                final String place = placeInput.getText().toString();
+                SearchView placeInput = findViewById(R.id.searchPlace);
+                final String place = placeInput.getQuery().toString();
+                placeInput.setQuery("", false);
+                placeInput.clearFocus();
 
                 getWeather(place);
                 updateUI();
@@ -95,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         int position = (viewHolder.getAdapterPosition());
-                        //mMainViewModel.delete(mItems.get(position));
+                        mMainViewModel.delete(places.get(position));
+                        //db.placeDao().delete(places.get(position));
                         places.remove(position);
                         mAdapter.notifyItemRemoved(position);
                         updateUI();
@@ -107,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
     //@Override
     public void itemOnClick(int i) {
-        Place updatedItem = places.get(i);
-        //mMainViewModel.update(updatedItem);
+        Place openItem = places.get(i);
+        //mMainViewModel.open(updatedItem);
     }
 
     private void getWeather(String place) {
@@ -125,15 +143,24 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Result> call, Response<Result> response) {
                 if (response.isSuccessful()) {
                     Result result = response.body();
+
                     ArrayList theWeather = new ArrayList();
                     theWeather.addAll(result.getWeather());
                     Weather weatherResult = (Weather) theWeather.get(0);
+                    String weather = weatherResult.getMain();
+
                     String image = "http://openweathermap.org/img/w/"+weatherResult.getIcon()+".png";
+
                     Main mainResult = result.getMain();
                     Float floatTemp = mainResult.getTemp();
                     int temp = Math.round(floatTemp);
-                    Place newPlace = new Place(city, temp, null, image, "");
+
+                    String theCity = city.substring(0,1).toUpperCase() + city.substring(1).toLowerCase();
+
+                    Place newPlace = new Place(theCity, temp, weather, image, "");
                     places.add(newPlace);
+                    mMainViewModel.insert(newPlace);
+                    //db.placeDao().insertPlace(newPlace);
                     updateUI();
                 }
                 else
@@ -153,21 +180,5 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
         }
         mAdapter.notifyDataSetChanged();
-    }
-
-    private void initializeData() {
-        Weather newWeather1 = new Weather("Broken Clouds", "");
-        Weather newWeather2 = new Weather("Rain", "");
-        Weather newWeather3 = new Weather("Windy", "");
-        Weather newWeather4 = new Weather("Clear", "");
-
-        Place newPlace1 = new Place("Groningen", 4, newWeather1,"http://openweathermap.org/img/w/04d.png", "");
-        places.add(newPlace1);
-        Place newPlace2 = new Place("Zaandam", 10, newWeather2, "http://openweathermap.org/img/w/10d.png", "");
-        places.add(newPlace2);
-        Place newPlace3 = new Place("Patras", 14, newWeather4, "", "");
-        places.add(newPlace3);
-        Place newPlace4 = new Place("Amsterdam", 6, newWeather2, "http://openweathermap.org/img/w/01d.png", "");
-        places.add(newPlace4);
     }
 }

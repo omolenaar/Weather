@@ -52,7 +52,6 @@ public class Result {
         this.weather = weather;
     }
 
-
     public Main getMain() {
         return main;
     }
@@ -60,38 +59,13 @@ public class Result {
     public void setMain(Main main) {
         this.main = main;
     }
-
-    /*
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
-    }
-
-    public Integer getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(Integer visibility) {
-        this.visibility = visibility;
-    }
-
+/*
     public Wind getWind() {
         return wind;
     }
 
     public void setWind(Wind wind) {
         this.wind = wind;
-    }
-
-    public Clouds getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(Clouds clouds) {
-        this.clouds = clouds;
     }
 */
     public Integer getId() {
