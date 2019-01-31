@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
-    android:background="@color/design_default_color_primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".WeatherDetail">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -30,33 +29,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <include layout="@layout/content_main" />
 
-    </FrameLayout>
-
-    <SearchView
-        android:id="@+id/searchPlace"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="@dimen/fab_margin"
-        android:ems="10"
-        android:background="#e6f2ff"
-        android:inputType="textPersonName"
-        android:text="Name" >
-    </SearchView>
-
-    <ImageButton
-        android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10.5dp"
-        app:srcCompat="@android:drawable/ic_media_play" />
 </android.support.design.widget.CoordinatorLayout>

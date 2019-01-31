@@ -21,13 +21,17 @@ public class Result {
     @SerializedName("visibility")
     @Expose
     private Integer visibility;
-    @SerializedName("wind")
-    @Expose
-    private Wind wind;
+
     @SerializedName("clouds")
     @Expose
     private Clouds clouds;
 */
+    @SerializedName("wind")
+    @Expose
+    private Wind wind;
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
     private Integer id;
     @SerializedName("name")
     @Expose
@@ -59,7 +63,7 @@ public class Result {
     public void setMain(Main main) {
         this.main = main;
     }
-/*
+
     public Wind getWind() {
         return wind;
     }
@@ -67,7 +71,13 @@ public class Result {
     public void setWind(Wind wind) {
         this.wind = wind;
     }
-*/
+
+    public Rain getRain() {
+    return rain;
+}
+    public void setRain(Rain rain) {
+        this.rain = rain;
+    }
     public Integer getId() {
         return id;
     }

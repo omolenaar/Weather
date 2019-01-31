@@ -9,6 +9,7 @@ import java.util.List;
 public class MainViewModel extends ViewModel {
     private PlacesRepository mRepository;
     private LiveData<List<Place>> mPlaces;
+    private LiveData<List<Place>> mUpdatedPlaces;
 
     public MainViewModel(Context context) {
         mRepository = new PlacesRepository(context);
@@ -16,6 +17,10 @@ public class MainViewModel extends ViewModel {
     }
 
     public LiveData<List<Place>> getPlaces () {
+        return mPlaces;
+    }
+
+    public LiveData<List<Place>> getUpdatedPlaces () {
         return mPlaces;
     }
 

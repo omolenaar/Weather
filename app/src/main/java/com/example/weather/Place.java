@@ -20,13 +20,25 @@ public class Place {
     private String description;
     @ColumnInfo(name = "imageUrl")
     private String imageUrl;
+    @ColumnInfo(name = "windspeed")
+    private Float windSpeed;
+    @ColumnInfo(name = "winddeg")
+    private Float windDeg;
+    @ColumnInfo(name = "rainamount")
+    private Float rainAmount;
+    @ColumnInfo(name = "raindescr")
+    private String rainDesciption;
 
-    public Place(String name, Integer temperature, String weather, String imageUrl, String description) {
+    public Place(String name, String weather, Integer temperature, String imageUrl, Float windSpeed, Float windDeg, Float rainAmount, String rainDesciption) {
         this.name = name;
-        this.temperature = temperature;
         this.weather = weather;
-        this.imageUrl = imageUrl;
+        this.temperature = temperature;
         this.description = description;
+        this.imageUrl = imageUrl;
+        this.windSpeed = windSpeed;
+        this.windDeg = windDeg;
+        this.rainAmount = rainAmount;
+        this.rainDesciption = rainDesciption;
     }
 
     public Long getId() {
@@ -75,5 +87,37 @@ public class Place {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Float getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(Float windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public Float getWindDeg() {
+        return windDeg;
+    }
+
+    public void setWindDeg(Float windDeg) {
+        this.windDeg = windDeg;
+    }
+
+    public Float getRainAmount() {
+        return rainAmount;
+    }
+
+    public void setRainAmount(Float rainAmount) {
+        this.rainAmount = rainAmount;
+    }
+
+    public String getRainDesciption() {
+        return rainDesciption;
+    }
+
+    public void setRainDesciption(String rainDesciption) {
+        this.rainDesciption = rainDesciption;
     }
 }

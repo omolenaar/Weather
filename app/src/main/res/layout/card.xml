@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_view_weather"
+            android:id="@+id/text_view_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
@@ -55,7 +55,7 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/guideline_right"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="wrap" />
 
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="60dp" />
+            app:layout_constraintGuide_end="40dp" />
 
 
         <android.support.constraint.Guideline

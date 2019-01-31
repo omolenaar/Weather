@@ -12,15 +12,20 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.MyViewHolder>{
 
-        List<Place> mPlaces;
+    public interface PlaceClickListener {
+        void placeOnClick(int i);
+    }
 
-    public PlacesAdapter(List<Place> mPlaces) {
+    List<Place> mPlaces;
+    final private PlaceClickListener mPlaceClickListener;
+
+    public PlacesAdapter(List<Place> mPlaces, PlaceClickListener mPlaceClickListener) {
             this.mPlaces=mPlaces;
+            this.mPlaceClickListener=mPlaceClickListener;
         }
 
         @NonNull
@@ -37,7 +42,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.MyViewHold
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             final Place thisPlace =  mPlaces.get(position);
             holder.placeText.setText(thisPlace.getName());
-            holder.weatherText.setText(thisPlace.getTemperature().toString());
+            holder.tempText.setText(thisPlace.getTemperature().toString()+ " \u2103");
             String myImageString = thisPlace.getImageUrl();
             if (myImageString.equals("")) holder.weatherImage.setVisibility(View.INVISIBLE);
             else
@@ -59,7 +64,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.MyViewHold
 
         public class MyViewHolder extends RecyclerView.ViewHolder{
             final TextView placeText;
-            final TextView weatherText;
+            final TextView tempText;
             final ImageView weatherImage;
             private final ConstraintLayout main;
 
@@ -67,8 +72,23 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.MyViewHold
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
                 placeText = itemView.findViewById(R.id.text_view_place_name);
-                weatherText = itemView.findViewById(R.id.text_view_weather);
+                tempText = itemView.findViewById(R.id.text_view_temp);
                 weatherImage = itemView.findViewById(R.id.image_view_place);
-                main = itemView.findViewById(R.id.main);        }
+                main = itemView.findViewById(R.id.main);
+                main.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPlaceClickListener.placeOnClick(getAdapterPosition());
+                    }
+                });
+            }
+        }
+
+    public void swapList (List<Place> newList) {
+        mPlaces = newList;
+        if (newList != null) {
+            this.notifyDataSetChanged();
         }
     }
+    }
+

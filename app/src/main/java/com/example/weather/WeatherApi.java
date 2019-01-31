@@ -30,4 +30,12 @@ public interface WeatherApi {
             @Query(("units")) String units
     );
 
+    @GET("weather")
+    Call<Result> getWeatherByCoord(
+            @Query("lat") double lat,
+            @Query("lon") double lon,
+            @Query("APPID") String API_KEY,
+            @Query(("units")) String units
+    );
+
 }
