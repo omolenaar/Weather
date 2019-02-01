@@ -39,23 +39,12 @@ public class WeatherDetail extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-/*
-        final Button done = findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent result = new Intent();
-                finish();
-            }
-        });
-        */
-    }
+}
 
     public static class PlaceholderFragment extends Fragment {
 
@@ -127,6 +116,7 @@ public class WeatherDetail extends AppCompatActivity {
 
         @Override
         public int getCount() {
+            places = MainActivity.places;
             return places.size();
         }
     }

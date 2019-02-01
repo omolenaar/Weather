@@ -151,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.Pla
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), CurrentLocationDetail.class);
-                Intent intent1 = intent.putExtra(CurrentLocationDetail.ARG_ITEM_ID, 0);
-                getApplicationContext().startActivity(intent);
+                intent.putExtra(CurrentLocationDetail.ARG_ITEM_ID, 0);
+                startActivityForResult(intent, 1);
             }
         });
 
