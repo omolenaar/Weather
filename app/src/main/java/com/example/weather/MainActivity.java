@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.Pla
                     if (location == null) {
                         location = new Location("");
                         location.setLatitude(52d);
-                        location.setLongitude(4d);
+                        location.setLongitude(5d);
                     }
                     getWeatherCoord(location);
                 }

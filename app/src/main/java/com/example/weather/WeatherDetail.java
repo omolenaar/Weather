@@ -30,6 +30,7 @@ public class WeatherDetail extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private int clickedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,9 @@ public class WeatherDetail extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        clickedPosition = getIntent().getExtras().getInt("item_id");
+        mViewPager.setCurrentItem(clickedPosition, false);
+
 }
 
     public static class PlaceholderFragment extends Fragment {
