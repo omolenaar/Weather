@@ -31,10 +31,12 @@ public class Rain {
 
     public String getRainClass() {
         String rainClass = "Rain";
-        if (_3h < 7.5) rainClass = "Light";
-        if (7.5 < _3h && _3h< 30) rainClass = "Moderate";
-        if (30 < _3h && _3h< 150) rainClass = "Heavy";
-        if (150 < _3h) rainClass = "Violent";
+        if (_3h != null) {
+            if (_3h < 7.5) rainClass = "Light";
+            if (7.5 < _3h && _3h < 30) rainClass = "Moderate";
+            if (30 < _3h && _3h < 150) rainClass = "Heavy";
+            if (150 < _3h) rainClass = "Violent";
+        }
         return rainClass;
         }
     }
