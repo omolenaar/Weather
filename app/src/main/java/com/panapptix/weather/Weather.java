@@ -1,6 +1,4 @@
-package com.example.weather;
-
-import android.arch.persistence.room.Entity;
+package com.panapptix.weather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

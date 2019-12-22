@@ -1,4 +1,4 @@
-package com.example.weather;
+package com.panapptix.weather;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;

@@ -1,4 +1,4 @@
-package com.example.weather;
+package com.panapptix.weather;
 
 import org.junit.Test;
 

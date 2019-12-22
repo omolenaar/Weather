@@ -1,4 +1,4 @@
-package com.example.weather;
+package com.panapptix.weather;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +15,17 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class CurrentLocationDetail extends AppCompatActivity {
+public class WeatherDetail extends AppCompatActivity {
 
-    public static final String ARG_ITEM_ID = "Item_id";
-    static List<Place> places;
-    static Place currentPlace = MainActivity.currentLocation;
+    static List<Place> places = MainActivity.places;
+    public static final String ARG_ITEM_ID = "item_id";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private int clickedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,32 +36,14 @@ public class CurrentLocationDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        places = new ArrayList<Place>();
-        places.add(currentPlace);
-
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        clickedPosition = getIntent().getExtras().getInt("item_id");
+        mViewPager.setCurrentItem(clickedPosition, false);
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
-                new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.UP | ItemTouchHelper.DOWN) {
-                    @Override
-                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                        return false;
-                    }
-
-                    @Override
-                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                        if (direction == 3 || direction == 2)
-                            setResult(RESULT_OK);
-                            finish();
-
-                    }
-                };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-
-    }
+}
 
     public static class PlaceholderFragment extends Fragment {
 
@@ -104,18 +83,19 @@ public class CurrentLocationDetail extends AppCompatActivity {
 
             TextView windSpeedText = rootView.findViewById(R.id.wind);
             if (places.get(position).getWindSpeed()!=null)
-                windSpeedText.setText(places.get(position).getWindSpeed().toString());
+            windSpeedText.setText(places.get(position).getWindSpeed().toString());
 
             TextView windDeg = rootView.findViewById(R.id.windDescription);
             if (places.get(position).getWindDeg()!=null)
-                windDeg.setText(places.get(position).getWindDeg().toString());
+            windDeg.setText(places.get(position).getWindDeg().toString());
 
             TextView rainText = rootView.findViewById(R.id.rain);
             if (places.get(position).getRainAmount()!=null)
-                rainText.setText(places.get(position).getRainAmount().toString());
+            rainText.setText(places.get(position).getRainAmount().toString());
 
             TextView rainClass = rootView.findViewById(R.id.rainDescription);
             rainClass.setText(places.get(position).getRainDesciption());
+
             return rootView;
         }
     }
@@ -130,12 +110,13 @@ public class CurrentLocationDetail extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return CurrentLocationDetail.PlaceholderFragment.newInstance(position + 1);
+            return WeatherDetail.PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-            return 1;
+            places = MainActivity.places;
+            return places.size();
         }
     }
 }
